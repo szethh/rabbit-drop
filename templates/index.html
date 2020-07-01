@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <title>Rabbit Drop</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1 class"center">Rabbit Drop</h1>
+    <script src="../static/js/jquery-3.4.1.js"></script>
+    <script src="../static/js/dropzone-5.7.0/dist/dropzone.js"></script>
+    <link rel="stylesheet" href="../static/js/dropzone-5.7.0/dist/dropzone.css">
+
+	<div class="row center-screen">
+	  <div class="col-sm-6">
+	    <div class="card">
+	      <div class="card-body center">
+	        <h5 class="card-title">Upload</h5>
+	        <p class="card-text">Upload files to Rabbit-Drop!</p>
+	        <form action="/file-upload"
+		      class="dropzone"
+		      id="dzUp"></form>
+		    <div class="center"><button type="submit" id="up-b" class="btn btn-primary">Upload</button></div>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-sm-6">
+	    <div class="card">
+	      <div class="card-body center">
+	        <h5 class="card-title">Download</h5>
+	        <p class="card-text">Insert your file ID.</p>
+        	<input type="text" id="textfield" placeholder="Type the file ID..." onkeydown="search(this)">
+			<button type="submit" class="btn btn-primary">Go</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<script>
+		Dropzone.options.dzUp = {
+		    autoProcessQueue: false,
+		    url: '/file-upload',
+		    init: function () {
+		        var myDropzone = this;
+		
+		        // Update selector to match your button
+		        $("#up-b").click(function (e) {
+		            e.preventDefault();
+		            myDropzone.processQueue();
+		        });
+		        myDropzone.on('success', function(file, url) {
+				  // var args = Array.prototype.slice.call(arguments);
+				  console.log(url);
+				  window.location.replace(url);
+				});
+				/* // add username
+		        this.on('sending', function(file, xhr, formData) {
+		            // Append all form inputs to the formData Dropzone will POST
+		            var data = $('#frmTarget').serializeArray();
+		            $.each(data, function(key, el) {
+		                formData.append(el.name, el.value);
+		            });
+		        });
+		        */
+		    }
+		}
+	</script>
+	
+	<script>
+		function go(id)
+		{
+			if (id == "")
+			{
+				return false;
+			}
+			console.log($("#textfield").val());
+			window.location.replace("/file/" + id);
+		}
+		function search(ele) {
+		    if(event.key === 'Enter') {
+		        go(ele.value);
+		    }
+		}
+	</script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
